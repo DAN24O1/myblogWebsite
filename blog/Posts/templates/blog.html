@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+{% load blog_extras %}
+{% load static %}
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+<body class="w3-light-grey">
+
+<!-- w3-content defines a container for fixed size centered content,
+and is wrapped around the whole page content, except for the footer in this example -->
+<head>
+
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a, .dropbtn {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+li.dropdown {
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+</style>
+</head>
+<body>
+
+<ul>
+  <li><a href="/posts/4/">Home</a></li>
+  <li><a href="/posts/cv/">CV</a></li>
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Topics</a>
+    <div class="dropdown-content">
+      {% if allTopics %}
+        {% for topic in allTopics %}
+          <a href="/posts/{{ topic.id }}/">{{ topic.topicName }}</a>
+        {% endfor %}
+      {% else %}
+        <h1>No topics to display</h1>
+      {% endif %}
+
+    </div>
+  </li>
+</ul>
+
+
+</body>
+<div class="w3-content" style="max-width:1400px">
+
+<!-- Header -->
+<header class="w3-container w3-center w3-padding-32">
+  <h1><b>MY BLOG</b></h1>
+  <p>Welcome to the blog of <span class="w3-tag">Dan Smith</span></p>
+</header>
+
+<!-- Grid -->
+<div class="w3-row">
+
+<!-- Blog entries -->
+
+<div class="w3-col l8 s12">
+
+  <!-- Blog entry -->
+  <ul>
+    {% for i in range %}
+    <div class="w3-card-4 w3-margin w3-white">
+
+      <div class="w3-container">
+        <h3><b>{{ allPosts|return_item:i }}</b></h3>
+        {% with post=allPosts|return_item:i %}
+        <h5>Last Edited: <span class="w3-opacity">{{post.datePub}}</span></h5>
+        <h5>Publisher: <span class="w3-opacity">{{post.publisher}}</span></h5>
+
+      </div>
+
+      <div class="w3-container">
+
+        <p>{{ post.text }}</p>
+
+
+
+        <div class="w3-row">
+          <div class="w3-col m4 w3-hide-small">
+            <form class="" action="/posts/{{ topicId }}/{{ post.id }}/" method="post">
+              {% csrf_token %}
+              <input type="text" name="text" value="">
+              <input type="submit" name="test" value="Add Comment">
+            </form>
+
+            {% endwith %}
+
+            <p>Comments: </p>
+
+            {% for comment in  allComments|return_item:i %}
+            <h6>{{comment.commentText }}</h6>
+
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+    {% endfor %}
+
+  </ul>
+
+  <hr>
+
+<!-- END BLOG ENTRIES -->
+</div>
+
+<!-- Introduction menu -->
+<div class="w3-col l4">
+  <!-- About Card -->
+  <div class="w3-card w3-margin w3-margin-top">
+
+    <div class="w3-container w3-white">
+      <h4><b>Dan Smith</b></h4>
+      <p>Proactive software developer promoting a background with more than 5 years of expertise. A passionate leader with the ability to lead winning, effective teams. Seeking the opportunity to support stakeholders' projects and requirements. In my free time I freelance on sites such as fiverr striving for excellence in every piece of work that comes through my hands. Along with this I'm a passionate musician who has been playing piano for the past ten years..</p>
+    </div>
+  </div><hr>
+
+  <!-- Posts -->
+
+
+  <!-- Labels / tags -->
+
+
+<!-- END Introduction Menu -->
+</div>
+
+<!-- END GRID -->
+</div><br>
+
+<!-- END w3-content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-dark-grey w3-padding-32 w3-margin-top">
+
+</footer>
+
+</body>
+</html>
